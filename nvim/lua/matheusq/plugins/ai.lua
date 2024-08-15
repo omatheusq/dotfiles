@@ -23,6 +23,10 @@ return {
 			return vim.fn["codeium#CycleCompletions"](1)
 		end, { expr = true, silent = true })
 
+		vim.keymap.set("i", "<C-e>", function()
+			return vim.fn["codeium#Clear"]()
+		end, { expr = true, silent = true })
+
 		-- Optionally configure the appearance and behavior of Codeium
 		vim.g.codeium_idle_delay = 200 -- Delay in milliseconds before showing suggestions
 		vim.g.codeium_suggestion_color = "#808080" -- Customize the color of virtual text
