@@ -8,3 +8,6 @@ vim.opt.shiftwidth = 2
 vim.opt.undofile = true
 vim.opt.backup = false
 vim.opt.signcolumn = "yes"
+
+vim.o.cmdwinheight = 1
+vim.o.cmdheight = 0
