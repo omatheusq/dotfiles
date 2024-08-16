@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("i", "kj", "<Esc>")
+-- vim.keymap.set("i", "kj", "<Esc>")
 
 vim.keymap.set("n", "<leader>p", '"_diwP')
 
@@ -28,3 +28,24 @@ vim.keymap.set("x", "<leader>r", function()
 
 	vim.api.nvim_input(":<C-u>" .. "%s/\\v(" .. yanked_text .. ")/" .. yanked_text .. "/gI<Left><Left><Left>")
 end, { desc = "Replace selected text", noremap = true, silent = true })
+
+vim.keymap.set({ "n" }, "<leader><leader>", ":silent write<CR> <BAR> :set termguicolors<CR>", { silent = true })
+
+-- Custom function to select inside quotes or single quotes
+local function select_inside_quotes()
+	local col = vim.fn.col(".")
+	local line = vim.fn.getline(".")
+
+	-- Check if the cursor is inside single or double quotes
+	local in_single = line:find("'", col)
+	local in_double = line:find('"', col)
+
+	if in_single and (not in_double or in_single < in_double) then
+		vim.cmd("normal! vi'")
+	elseif in_double then
+		vim.cmd('normal! vi"')
+	end
+end
+
+vim.keymap.set("n", "<leader>q", select_inside_quotes, { silent = true })
+-- Map the function to a key in visual mode

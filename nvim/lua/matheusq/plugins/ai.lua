@@ -28,7 +28,7 @@ return {
 		end, { expr = true, silent = true })
 
 		-- Optionally configure the appearance and behavior of Codeium
-		vim.g.codeium_idle_delay = 200 -- Delay in milliseconds before showing suggestions
+		vim.g.codeium_idle_delay = 1000 -- Delay in milliseconds before showing suggestions
 		vim.g.codeium_suggestion_color = "#808080" -- Customize the color of virtual text
 
 		-- Use autocommand to apply the virtual text color
