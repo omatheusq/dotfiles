@@ -23,3 +23,5 @@ require("lazy").setup({ { import = "matheusq.plugins" } }, {
 		notify = false,
 	},
 })
+
+vim.cmd([[highlight LineNr gui=bold]]) -- Changes the foreground to green and background to black

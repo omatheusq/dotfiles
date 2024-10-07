@@ -21,7 +21,7 @@ return {
 				python = { "isort", "black" },
 			},
 			format_on_save = function(bufnr)
-				return { timeout_ms = 1000, async = false, lsp_fallback = true }
+				return { timeout_ms = 3000, async = true, lsp_fallback = true }
 			end,
 		})
 	end,

@@ -19,14 +19,29 @@ return {
 				-- vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
 				-- Autocommand to add missing imports after saving the buffer
-				vim.api.nvim_create_autocmd("BufWritePost", {
-					pattern = "*.ts,*.tsx", -- Adjust the pattern if needed
-					callback = function()
-						vim.cmd("TSToolsAddMissingImports")
-					end,
-				})
+				-- vim.api.nvim_create_autocmd("BufWritePost", {
+				-- 	pattern = "*.ts,*.tsx", -- Adjust the pattern if needed
+				-- 	callback = function()
+				-- 		vim.cmd("TSToolsAddMissingImports")
+				-- 	end,
+				-- })
+				--
+				--
+
+				vim.keymap.set("n", "<CR>", function()
+					vim.lsp.buf.code_action({
+						filter = function(action, ctx)
+							return action.title:lower():match("import")
+						end,
+						apply = true,
+					})
+				end, { noremap = true, silent = true })
 			end,
 			settings = {
+				separate_diagnostic_server = true,
+				tsserver_max_memory = "auto",
+				complete_function_calls = false,
+				include_completions_with_insert_text = true,
 				publish_diagnostic_on = "insert_leave",
 				expose_as_code_action = {
 					"fix_all",

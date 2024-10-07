@@ -9,6 +9,7 @@ return {
 		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { silent = true })
 		vim.keymap.set("n", "<leader>fi", builtin.grep_string, { silent = true })
 		vim.keymap.set("n", "<leader>ft", builtin.quickfix, { silent = true })
+		vim.keymap.set("n", "<leader>fb", builtin.buffers, { silent = true })
 
 		-- This is your opts table
 		require("telescope").setup({

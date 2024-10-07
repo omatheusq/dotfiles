@@ -13,6 +13,5 @@ return {
 		if not ok then
 			vim.cmd("colorscheme default") -- if the above fails, then use default
 		end
-		vim.api.nvim_set_hl(0, "Cursor", { fg = "#000000", bg = "#008b8b" })
 	end,
 }
