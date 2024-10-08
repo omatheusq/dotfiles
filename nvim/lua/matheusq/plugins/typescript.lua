@@ -6,47 +6,46 @@ return {
 		local api = require("typescript-tools.api")
 		return {
 			handlers = {
-				-- Ignore 'This may be converted to an async function' diagnostics.
+				-- Filter diagnostics if needed
 				["textDocument/publishDiagnostics"] = api.filter_diagnostics({ 80006 }),
 			},
-			on_attach = function(client)
+			on_attach = function(client, bufnr)
+				-- Disable tsserver's formatting if you use another formatter (e.g., Prettier)
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 
-				local opts = { noremap = true, silent = true }
+				-- Keybindings for common LSP functionalities
+				local opts = { noremap = true, silent = true, buffer = bufnr }
 
-				vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-				-- vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+				vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+				vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+				vim.keymap.set("n", "H", vim.lsp.buf.hover, opts)
 
-				-- Autocommand to add missing imports after saving the buffer
-				-- vim.api.nvim_create_autocmd("BufWritePost", {
-				-- 	pattern = "*.ts,*.tsx", -- Adjust the pattern if needed
-				-- 	callback = function()
-				-- 		vim.cmd("TSToolsAddMissingImports")
-				-- 	end,
-				-- })
-				--
-				--
+				-- Rename symbol
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
+				-- Code actions for auto imports (or other actions)
 				vim.keymap.set("n", "<CR>", function()
 					vim.lsp.buf.code_action({
-						filter = function(action, ctx)
+						filter = function(action)
 							return action.title:lower():match("import")
 						end,
 						apply = true,
 					})
-				end, { noremap = true, silent = true })
+				end, opts)
 			end,
 			settings = {
-				separate_diagnostic_server = true,
+				separate_diagnostic_server = true, -- Diagnostics handled separately
 				tsserver_max_memory = "auto",
-				complete_function_calls = false,
+				complete_function_calls = false, -- Disable function call snippets
 				include_completions_with_insert_text = true,
 				publish_diagnostic_on = "insert_leave",
 				expose_as_code_action = {
-					"fix_all",
-					"add_missing_imports",
-					"remove_unused",
+					"fix_all", -- Fix-all issues
+					"add_missing_imports", -- Auto import missing items
+					"remove_unused", -- Remove unused code
 					"remove_unused_imports",
 					"organize_imports",
 				},

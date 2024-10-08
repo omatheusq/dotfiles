@@ -13,7 +13,7 @@ return {
 
 		local cmp = require("cmp")
 
-		local max_items = 15
+		local max_items = 5
 		cmp.setup({
 			sources = {
 				{ name = "path" },
@@ -60,7 +60,7 @@ return {
 					local icons = require("nvim-web-devicons")
 					local icon, hl_group = icons.get_icon(entry:get_completion_item().label)
 					if icon then
-						kind.kind = " " .. icon .. " " .. kind.kind
+						kind.kind = " " .. icon
 						kind.kind_hl_group = hl_group
 					else
 						-- Split the kind text if icon is not found
